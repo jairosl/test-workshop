@@ -7,9 +7,8 @@ describe("Tests", () => {
     const a = 1
     const b = 2
 
-    const result = sum(a, b)
-    console.log(new Date().getHours() * 60 + new Date().getMinutes());
+    const result = sum(a, b);
 
-    expect(result).toEqual(4)
+    expect(result).toEqual(3);
   })
 })

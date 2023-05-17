@@ -1,15 +1,31 @@
-# Parking Lot
+# Controle financeiro
 
 Requisitos Funcionais:
 
-  - Registro de entrada: O sistema deve permitir o registro da entrada de um veículo no estacionamento, capturando informações como placa, modelo e hora de entrada.
+  - Registrar Transações de receita e despesas - uma transação deve ter um id, nome, descrição, valor e o tipo;
 
-  - Registro de saída: O sistema deve permitir o registro da saída de um veículo do estacionamento, capturando a hora de saída.
+  - Relatório geral do saldo atual - mostra o valor atual somando as receitas e as despesas;
 
-  - Cálculo de tarifa: O sistema deve calcular a tarifa a ser cobrada com base no tempo de permanência do veículo no estacionamento. A tarifa pode ser baseada em um valor fixo por hora ou em uma taxa por período de tempo definido.
+  - Relatório especifico por Receitas total ou Despesas totais - mostrar o valor total de cada Tipo de transação;
 
-  - Controle de vagas: O sistema deve controlar o número de vagas disponíveis no estacionamento, garantindo que não seja excedido o limite máximo de veículos permitidos.
+  - Alterar Registro especifico: Devemos ser capaz de alterar a transação isso vai impactar os relatórios;
 
-  - Pesquisa de veículo: O sistema deve permitir a pesquisa de um veículo no estacionamento por meio da placa, fornecendo informações como o tempo de permanência e o valor a ser pago.
+  - Metas Financeiras - Devemos ser capaz de definirmos uma meta de economia e a cada trasação devemos mostrar quantos porcento estamos de chegar nessa meta
 
-  - Relatório de ocupação: O sistema deve fornecer um relatório de ocupação atualizado, mostrando o número de vagas ocupadas e disponíveis.
+
+Alguns Assuntos que vamos aprender:
+
+  - [ ] god class
+  - [ ] pirâmide de teste
+  - [ ] inversão de dependência
+  - [ ] injeção de dependência
+  - [ ] repository pattern
+  - [ ] SOLID
+  - [ ] TDD 
+  - [ ] FIRST
+  - [ ] 3A
+
+
+Vamos começar no Backend!
+
+  
