@@ -15,15 +15,17 @@ Requisitos Funcionais:
 
 Alguns Assuntos que vamos aprender:
 
-  - [ ] god class
+  - [ ] Por que testes ? quais os benefícios
   - [ ] pirâmide de teste
-  - [ ] inversão de dependência
-  - [ ] injeção de dependência
+  - [ ] 3A
+  - [ ] FIRST
+  - [ ] TDD 
+
+  - [ ] god class
+  - [ ] inversão de dependência - conteito
+  - [ ] injeção de dependência - pattern
   - [ ] repository pattern
   - [ ] SOLID
-  - [ ] TDD 
-  - [ ] FIRST
-  - [ ] 3A
 
 
 Vamos começar no Backend!
