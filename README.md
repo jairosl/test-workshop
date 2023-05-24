@@ -15,9 +15,9 @@ Requisitos Funcionais:
 
 Alguns Assuntos que vamos aprender:
 
-  - [ ] Por que testes ? quais os benefícios
-  - [ ] pirâmide de teste
-  - [ ] 3A
+  - [x] Por que testes ? quais os benefícios
+  - [x] pirâmide de teste
+  - [x] 3A
   - [ ] FIRST
   - [ ] TDD 
 

@@ -1,7 +1,7 @@
 import { sum } from "."
 
 describe("Tests", () => {
-  it.skip("should sum two numbers", () => {
+  it("should sum two numbers", () => {
     const a = 1;
     const b = 2;
 
@@ -9,4 +9,4 @@ describe("Tests", () => {
 
     expect(result).toEqual(3);
   });
-})
+});

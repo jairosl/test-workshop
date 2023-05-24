@@ -1,64 +1,73 @@
 import { randomUUID } from "node:crypto";
 
-export enum TypeTransaction {
-  LEAVE = "Leave",
-  ENTER = "Enter",
+export const enum TypeTransaction {
+  LEAVE = "leave",
+  ENTER = "enter",
+}
+
+interface createTransaction {
+  name: string;
+  valor: number;
+  type: TypeTransaction;
+  description: string;
+}
+
+export interface ITransactionRepository {
+  save(transaction: createTransaction): Promise<Transaction>;
+  summary(): number;
 }
 
 interface Transaction {
   id: string;
   name: string;
-  description: string;
-  value: number;
+  valor: number;
   type: TypeTransaction;
+  description: string;
 }
 
-interface ICreateTransaction {
-  name: string;
-  description: string;
-  value: number;
-  type: TypeTransaction;
-}
-
-export class Finances {
+export class InMemoryTransactionRepository implements ITransactionRepository {
   private transactions: Transaction[] = [];
 
-  async createTransaction(transaction: ICreateTransaction) {
-    if (transaction.value === 0)
-      throw new Error("Transaction value not be zero");
-
+  async save(transaction: createTransaction) {
     const id = randomUUID();
     const newTransaction = {
       id,
       ...transaction,
     };
     this.transactions.push(newTransaction);
-
     return newTransaction;
   }
 
-  async getBalance(): Promise<number> {
-    const balance = this.transactions.reduce((acc, transaction) => {
+  summary(): number {
+    const summary = this.transactions.reduce((acc, transaction) => {
       if (transaction.type === TypeTransaction.ENTER) {
-        acc += transaction.value;
+        acc += transaction.valor;
       } else {
-        acc -= transaction.value;
+        acc -= transaction.valor;
       }
       return acc;
     }, 0);
 
-    return balance;
+    return summary;
+  }
+}
+
+export class Finances {
+  private repository: ITransactionRepository;
+
+  constructor(repository: ITransactionRepository) {
+    this.repository = repository;
   }
 
-  async getTransactionByType(type: TypeTransaction) {
-    const filterTransactionByType = this.transactions.filter(
-      (transaction) => transaction.type === type
-    );
+  async create(transaction: createTransaction) {
+    if (transaction.valor === 0) throw new Error("value with 0");
 
-    const total = filterTransactionByType.reduce((acc, transaction) => {
-      return (acc += transaction.value);
-    }, 0);
+    return this.repository.save(transaction);
+  }
 
-    return total;
+  async getSummary() {
+    const summary = this.repository.summary();
+
+    return summary;
   }
 }

@@ -1,116 +1,95 @@
-import { Finances, TypeTransaction } from "./finances";
+import {
+  Finances,
+  InMemoryTransactionRepository,
+  TypeTransaction,
+} from "./finances";
 
 describe("Finances", () => {
-  let sut = new Finances();
+  it("should create transaction", async () => {
+    const memory = new InMemoryTransactionRepository();
+    const finances = new Finances(memory);
 
-  beforeEach(() => {
-    sut = new Finances();
-  });
-
-  it("should create new transaction with type leave in my finances", async () => {
-    const newFinances = {
-      name: "Ifood",
-      description: "sushi",
-      value: 36,
-      type: TypeTransaction.LEAVE,
-    };
-
-    const transactionCreated = await sut.createTransaction(newFinances);
-
-    expect(transactionCreated).toHaveProperty("id");
-    expect(transactionCreated.name).toBe("Ifood");
-    expect(transactionCreated.description).toBe("sushi");
-    expect(transactionCreated.value).toBe(36);
-    expect(transactionCreated.type).toBe(TypeTransaction.LEAVE);
-  });
-
-  it("should create new transaction with type enter in my finances", async () => {
-    const newFinances = {
-      name: "Salario",
-      description: "meu salario mensal",
-      value: 4000,
+    const transaction = {
+      name: "salario",
+      valor: 5000,
       type: TypeTransaction.ENTER,
+      description: "",
     };
 
-    const transactionCreated = await sut.createTransaction(newFinances);
+    const createdTransaction = await finances.create(transaction);
 
-    expect(transactionCreated).toHaveProperty("id");
-    expect(transactionCreated.name).toBe("Salario");
-    expect(transactionCreated.description).toBe("meu salario mensal");
-    expect(transactionCreated.value).toBe(4000);
-    expect(transactionCreated.type).toBe(TypeTransaction.ENTER);
+    expect(createdTransaction.name).toBe("salario");
+    expect(createdTransaction).toHaveProperty("id");
   });
+  it("should not create transaction with value zero", async () => {
+    const memory = new InMemoryTransactionRepository();
+    const finances = new Finances(memory);
 
-  it("should throw error when create transaction with value zero", async () => {
-    const newFinances = {
-      name: "error",
-      description: "deve gerar um error",
-      value: 0,
+    const transaction = {
+      name: "salario",
+      valor: 0,
       type: TypeTransaction.ENTER,
+      description: "",
     };
 
-    await expect(sut.createTransaction(newFinances)).rejects.toThrow(
-      "Transaction value not be zero"
-    );
+    await expect(finances.create(transaction)).rejects.toThrow("value with 0");
   });
 
-  it("should get balance not transaction created", async () => {
-    const balance = await sut.getBalance();
+  it("should get summary", async () => {
+    const memory = new InMemoryTransactionRepository();
+    const finances = new Finances(memory);
 
-    expect(balance).toBe(0);
-  });
-
-  it("should get balance with transaction created", async () => {
-    const enterTransaction = {
-      name: "Salario",
-      description: "meu salario mensal",
-      value: 4000,
+    const transaction = {
+      name: "salario",
+      valor: 5000,
       type: TypeTransaction.ENTER,
+      description: "",
     };
 
-    const leaveTransaction = {
-      name: "Ifood",
-      description: "sushi",
-      value: 36,
-      type: TypeTransaction.LEAVE,
-    };
+    await finances.create(transaction);
+    const summary = await finances.getSummary();
 
-    await sut.createTransaction(enterTransaction);
-    await sut.createTransaction(leaveTransaction);
-
-    const balance = await sut.getBalance();
-
-    expect(balance).toBe(3964);
+    expect(summary).toBe(5000);
   });
 
-  it("should get all transaction with type leave", async () => {
-    const enterTransaction = {
-      name: "Salario",
-      description: "meu salario mensal",
-      value: 4000,
+  it("should get summary with value negative", async () => {
+    const memory = new InMemoryTransactionRepository();
+    const finances = new Finances(memory);
+
+    const transaction = {
+      name: "ifood",
+      valor: 200,
+      type: TypeTransaction.LEAVE,
+      description: "",
+    };
+
+    await finances.create(transaction);
+    const summary = await finances.getSummary();
+
+    expect(summary).toBe(-200);
+  });
+
+  it("should get summary with two transactions", async () => {
+    const memory = new InMemoryTransactionRepository();
+    const finances = new Finances(memory);
+
+    const transactionLeave = {
+      name: "ifood",
+      valor: 200,
+      type: TypeTransaction.LEAVE,
+      description: "",
+    };
+    const transactionEnter = {
+      name: "salario",
+      valor: 5000,
       type: TypeTransaction.ENTER,
+      description: "",
     };
 
-    const leaveTransactionIfood = {
-      name: "Ifood",
-      description: "sushi",
-      value: 36,
-      type: TypeTransaction.LEAVE,
-    };
+    await finances.create(transactionLeave);
+    await finances.create(transactionEnter);
+    const summary = await finances.getSummary();
 
-    const leaveTransactionShopping = {
-      name: "Shopping",
-      description: "compras",
-      value: 128,
-      type: TypeTransaction.LEAVE,
-    };
-
-    await sut.createTransaction(enterTransaction);
-    await sut.createTransaction(leaveTransactionIfood);
-    await sut.createTransaction(leaveTransactionShopping);
-
-    const balance = await sut.getTransactionByType(TypeTransaction.LEAVE);
-
-    expect(balance).toBe(164);
+    expect(summary).toBe(4800);
   });
 });
