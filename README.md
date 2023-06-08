@@ -18,14 +18,14 @@ Alguns Assuntos que vamos aprender:
   - [x] Por que testes ? quais os benefícios
   - [x] pirâmide de teste
   - [x] 3A
-  - [ ] FIRST
-  - [ ] TDD 
+  - [x] FIRST
+  - [x] TDD 
 
-  - [ ] god class
-  - [ ] inversão de dependência - conteito
-  - [ ] injeção de dependência - pattern
-  - [ ] repository pattern
-  - [ ] SOLID
+  - [x] god class
+  - [x] inversão de dependência - conteito
+  - [x] injeção de dependência - pattern
+  - [x] repository pattern
+  - [x] SOLID
 
 
 Vamos começar no Backend!
