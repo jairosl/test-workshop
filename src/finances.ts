@@ -7,7 +7,7 @@ export const enum TypeTransaction {
 
 interface createTransaction {
   name: string;
-  valor: number;
+  value: number;
   type: TypeTransaction;
   description: string;
 }
@@ -20,7 +20,7 @@ export interface ITransactionRepository {
 interface Transaction {
   id: string;
   name: string;
-  valor: number;
+  value: number;
   type: TypeTransaction;
   description: string;
 }
@@ -41,9 +41,9 @@ export class InMemoryTransactionRepository implements ITransactionRepository {
   summary(): number {
     const summary = this.transactions.reduce((acc, transaction) => {
       if (transaction.type === TypeTransaction.ENTER) {
-        acc += transaction.valor;
+        acc += transaction.value;
       } else {
-        acc -= transaction.valor;
+        acc -= transaction.value;
       }
       return acc;
     }, 0);
@@ -60,7 +60,7 @@ export class Finances {
   }
 
   async create(transaction: createTransaction) {
-    if (transaction.valor === 0) throw new Error("value with 0");
+    if (transaction.value === 0) throw new Error("value with 0");
 
     return this.repository.save(transaction);
   }

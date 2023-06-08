@@ -4,14 +4,27 @@ import {
   TypeTransaction,
 } from "./finances";
 
+const financesFactory = () => {
+  const memory = new InMemoryTransactionRepository();
+  const finances = new Finances(memory);
+
+  return finances;
+};
+
 describe("Finances", () => {
+  const sut = {
+    finances: financesFactory(),
+  };
+
+  beforeEach(() => {
+    sut.finances = financesFactory();
+  });
   it("should create transaction", async () => {
-    const memory = new InMemoryTransactionRepository();
-    const finances = new Finances(memory);
+    const { finances } = sut;
 
     const transaction = {
       name: "salario",
-      valor: 5000,
+      value: 5000,
       type: TypeTransaction.ENTER,
       description: "",
     };
@@ -22,12 +35,11 @@ describe("Finances", () => {
     expect(createdTransaction).toHaveProperty("id");
   });
   it("should not create transaction with value zero", async () => {
-    const memory = new InMemoryTransactionRepository();
-    const finances = new Finances(memory);
+    const { finances } = sut;
 
     const transaction = {
       name: "salario",
-      valor: 0,
+      value: 0,
       type: TypeTransaction.ENTER,
       description: "",
     };
@@ -36,12 +48,11 @@ describe("Finances", () => {
   });
 
   it("should get summary", async () => {
-    const memory = new InMemoryTransactionRepository();
-    const finances = new Finances(memory);
+    const { finances } = sut;
 
     const transaction = {
       name: "salario",
-      valor: 5000,
+      value: 5000,
       type: TypeTransaction.ENTER,
       description: "",
     };
@@ -53,12 +64,11 @@ describe("Finances", () => {
   });
 
   it("should get summary with value negative", async () => {
-    const memory = new InMemoryTransactionRepository();
-    const finances = new Finances(memory);
+    const { finances } = sut;
 
     const transaction = {
       name: "ifood",
-      valor: 200,
+      value: 200,
       type: TypeTransaction.LEAVE,
       description: "",
     };
@@ -70,18 +80,17 @@ describe("Finances", () => {
   });
 
   it("should get summary with two transactions", async () => {
-    const memory = new InMemoryTransactionRepository();
-    const finances = new Finances(memory);
+    const { finances } = sut;
 
     const transactionLeave = {
       name: "ifood",
-      valor: 200,
+      value: 200,
       type: TypeTransaction.LEAVE,
       description: "",
     };
     const transactionEnter = {
       name: "salario",
-      valor: 5000,
+      value: 5000,
       type: TypeTransaction.ENTER,
       description: "",
     };
